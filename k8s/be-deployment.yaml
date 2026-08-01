@@ -1,0 +1,40 @@
+apiVerion: apps/v1
+kind: Deployment
+metadata:
+  name: be-deployment
+  namespace: to-do
+  labels:
+    project: to-do-list
+    component: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      project: to-do-list
+      component: backend
+  template:
+    metadata:
+      labels:
+        project: to-do-list
+        component: backend
+    spec:
+      containers:
+        - name: be
+          image: pavithrakasukurthi/be:v1
+          imagePullPolicy: Always
+---
+apiVerion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: to-do
+spec:
+  selector:
+    labels:
+      project: to-do
+      component: backend
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+    
