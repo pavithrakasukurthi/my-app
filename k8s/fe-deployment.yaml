@@ -23,14 +23,14 @@ spec:
           image: pavithrakasukurthi/fe:v1
           imagePullPolicy: Always
 ---
-apiVerion: v1
+apiVersion: v1
 kind: Service
 metadata:
   name: frontend
   namespace: to-do
 spec:
+  type: LoadBalancer
   selector:
-    labels:
       project: to-do
       component: frontend
   ports:
