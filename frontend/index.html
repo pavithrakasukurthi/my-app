@@ -1,70 +1,114 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Simple To-Do App</title>
+    <title>To-Do App</title>
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            width: 500px;
-            margin: 50px auto;
+
+        body{
+            width:500px;
+            margin:40px auto;
+            font-family:Arial;
         }
 
-        h1 {
-            text-align: center;
+        input{
+            width:350px;
+            padding:10px;
         }
 
-        form {
-            display: flex;
-            gap: 10px;
+        button{
+            padding:10px;
         }
 
-        input {
-            flex: 1;
-            padding: 10px;
+        li{
+            margin:10px 0;
         }
 
-        button {
-            padding: 10px 20px;
-            cursor: pointer;
-        }
-
-        ul {
-            list-style: none;
-            padding: 0;
-            margin-top: 20px;
-        }
-
-        li {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px;
-            border: 1px solid #ccc;
-            margin-bottom: 10px;
-        }
-
-        a {
-            color: red;
-            text-decoration: none;
-        }
     </style>
+
 </head>
+
 <body>
 
-    <h1>My To-Do List</h1>
+<h1>My To-Do List</h1>
 
-    <form action="/add" method="POST">
-        <input type="text" name="task" placeholder="Enter a task" required>
-        <button type="submit">Add</button>
-    </form>
+<input id="task">
 
-    <ul>
-        {% for task in tasks %}
+<button onclick="addTask()">Add</button>
+
+<ul id="tasks"></ul>
+
+<script>
+
+const backend="http://docker.pavithra.sbs:8000";
+
+async function loadTasks(){
+
+    const res=await fetch(`${backend}/tasks`);
+
+    const data=await res.json();
+
+    let html="";
+
+    data.forEach((task,index)=>{
+
+        html+=`
         <li>
-            {{ task }}
-            <a href="/delete/{{ loop.index0 }}">Delete</a>
+
+            ${task}
+
+            <button onclick="deleteTask(${index})">Delete</button>
+
         </li>
-        {% endfor %}
-    </ul>
+        `;
+
+    });
+
+    document.getElementById("tasks").innerHTML=html;
+
+}
+
+async function addTask(){
+
+    const task=document.getElementById("task").value;
+
+    await fetch(`${backend}/add`,{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+            task:task
+        })
+
+    });
+
+    document.getElementById("task").value="";
+
+    loadTasks();
+
+}
+
+async function deleteTask(index){
+
+    await fetch(`${backend}/delete/${index}`,{
+
+        method:"DELETE"
+
+    });
+
+    loadTasks();
+
+}
+
+loadTasks();
+
+</script>
 
 </body>
+
 </html>
