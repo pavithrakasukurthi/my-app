@@ -2,27 +2,103 @@
 <html>
 
 <head>
-    <title>To-Do App</title>
+    <title>My To-Do App</title>
 
     <style>
 
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
         body{
+            background:linear-gradient(135deg,#667eea,#764ba2);
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+        }
+
+        .container{
             width:500px;
-            margin:40px auto;
-            font-family:Arial;
+            background:white;
+            padding:30px;
+            border-radius:15px;
+            box-shadow:0 15px 40px rgba(0,0,0,0.25);
+        }
+
+        h1{
+            text-align:center;
+            margin-bottom:25px;
+            color:#333;
+        }
+
+        .input-box{
+            display:flex;
+            gap:10px;
+            margin-bottom:20px;
         }
 
         input{
-            width:350px;
-            padding:10px;
+            flex:1;
+            padding:12px;
+            border:1px solid #ccc;
+            border-radius:8px;
+            font-size:16px;
+        }
+
+        input:focus{
+            outline:none;
+            border-color:#667eea;
         }
 
         button{
-            padding:10px;
+            padding:12px 20px;
+            border:none;
+            border-radius:8px;
+            cursor:pointer;
+            font-size:15px;
+            transition:.3s;
+        }
+
+        .add-btn{
+            background:#667eea;
+            color:white;
+        }
+
+        .add-btn:hover{
+            background:#4f5dd6;
+        }
+
+        ul{
+            list-style:none;
         }
 
         li{
-            margin:10px 0;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:12px;
+            margin-bottom:10px;
+            background:#f5f5f5;
+            border-radius:8px;
+        }
+
+        .delete-btn{
+            background:#ff4d4d;
+            color:white;
+        }
+
+        .delete-btn:hover{
+            background:#d63031;
+        }
+
+        .empty{
+            text-align:center;
+            color:gray;
+            margin-top:20px;
         }
 
     </style>
@@ -31,13 +107,20 @@
 
 <body>
 
-<h1>My To-Do List</h1>
+<div class="container">
 
-<input id="task">
+<h1>📝 My To-Do List</h1>
 
-<button onclick="addTask()">Add</button>
+<div class="input-box">
+    <input id="task" placeholder="Enter a task">
+    <button class="add-btn" onclick="addTask()">Add</button>
+</div>
 
 <ul id="tasks"></ul>
+
+<p id="empty" class="empty">No tasks yet.</p>
+
+</div>
 
 <script>
 
@@ -46,7 +129,6 @@ const backend="http://docker.pavithra.sbs:8000";
 async function loadTasks(){
 
     const res=await fetch(`${backend}/tasks`);
-
     const data=await res.json();
 
     let html="";
@@ -55,11 +137,12 @@ async function loadTasks(){
 
         html+=`
         <li>
+            <span>${task}</span>
 
-            ${task}
-
-            <button onclick="deleteTask(${index})">Delete</button>
-
+            <button class="delete-btn"
+            onclick="deleteTask(${index})">
+            Delete
+            </button>
         </li>
         `;
 
@@ -67,11 +150,15 @@ async function loadTasks(){
 
     document.getElementById("tasks").innerHTML=html;
 
+    document.getElementById("empty").style.display =
+        data.length===0 ? "block" : "none";
 }
 
 async function addTask(){
 
-    const task=document.getElementById("task").value;
+    const task=document.getElementById("task").value.trim();
+
+    if(task==="") return;
 
     await fetch(`${backend}/add`,{
 
@@ -110,5 +197,4 @@ loadTasks();
 </script>
 
 </body>
-
 </html>
