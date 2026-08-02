@@ -30,7 +30,7 @@ metadata:
   namespace: to-do
 spec:
   selector:
-      project: to-do
+      project: to-do-list
       component: backend
   ports:
     - protocol: TCP

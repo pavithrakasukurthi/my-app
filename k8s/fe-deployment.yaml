@@ -31,7 +31,7 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-      project: to-do
+      project: to-do-list
       component: frontend
   ports:
     - protocol: TCP
