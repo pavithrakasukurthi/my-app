@@ -6,5 +6,5 @@ metadata:
     region: us-east-1
 managedNodeGroups:
   - name: to-do-list-stage 
-    instanceType: "t3.micro"
+    instanceType: "t3.small"
     desiredCapacity: 3 #  by default this value is 3
