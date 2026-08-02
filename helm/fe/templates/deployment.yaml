@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fe-deployment
+  namespace: to-do
+  labels:
+    project: to-do-list
+    component: frontend
+spec:
+  replicas: {{ .Values.deployment.replicas }}
+  selector:
+    matchLabels:
+      project: to-do-list
+      component: frontend
+  template:
+    metadata:
+      labels:
+        project: to-do-list
+        component: frontend
+    spec:
+      containers:
+        - name: fe
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}

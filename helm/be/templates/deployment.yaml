@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: be-deployment
+  namespace: to-do
+  labels:
+    project: to-do-list
+    component: backend
+spec:
+  replicas: {{ .Values.deployment.replicas }}
+  selector:
+    matchLabels:
+      project: to-do-list
+      component: backend
+  template:
+    metadata:
+      labels:
+        project: to-do-list
+        component: backend
+    spec:
+      containers:
+        - name: be
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}

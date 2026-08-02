@@ -1,0 +1,8 @@
+deployment:
+  replicas: 1
+image: 
+  repository: pavithrakasukurthi/fe
+  tag: v1 
+  pullPolicy: IfNotPresent
+service:
+  port: 80

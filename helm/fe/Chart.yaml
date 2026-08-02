@@ -1,0 +1,5 @@
+apiVersion: v2
+name: fe
+version: 1.0.0
+description: Installing frontend Service
+appVersion: v1 
