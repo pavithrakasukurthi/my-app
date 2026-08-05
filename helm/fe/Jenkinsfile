@@ -26,11 +26,5 @@ pipeline {
                 }
             }
         }
-
-        stage('Trigger Backend Deploy') {
-            steps {
-                build job: 'be-deploy', wait: false
-            }
-        }
     }
 }

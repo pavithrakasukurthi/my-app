@@ -26,5 +26,10 @@ pipeline {
                 }
             }
         }
+         stage('Trigger Frontend Deploy') {
+            steps {
+                build job: 'fe-deploy', wait: false
+            }
+        }
     }
 }
