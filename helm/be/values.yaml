@@ -1,5 +1,5 @@
 deployment:
-  replicas: 1
+  replicas: 4
 image: 
   repository: pavithrakasukurthi/be
   tag: v1 
