@@ -20,7 +20,7 @@ pipeline {
                         aws eks update-kubeconfig --region us-east-1 --name to-do-list-stage
                         kubectl get nodes
                         kubectl create namespace to-do || true
-                        helm upgrade --install be -n to-do --atomic --wait --timeout=5m .
+                        helm upgrade --install be -n to-do --atomic --wait --timeout=5m ./helm/be
                         """
                     }
                 }
