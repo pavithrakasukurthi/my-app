@@ -133,20 +133,18 @@ async function loadTasks(){
 
     let html="";
 
-    data.forEach((task,index)=>{
+    data.forEach((task)=>{
+    html+=`
+    <li>
+        <span>${task.task}</span>
 
-        html+=`
-        <li>
-            <span>${task}</span>
-
-            <button class="delete-btn"
-            onclick="deleteTask(${index})">
-            Delete
-            </button>
-        </li>
-        `;
-
-    });
+        <button class="delete-btn"
+        onclick="deleteTask(${task.id})">
+        Delete
+        </button>
+    </li>
+    `;
+});
 
     document.getElementById("tasks").innerHTML=html;
 
@@ -180,16 +178,13 @@ async function addTask(){
 
 }
 
-async function deleteTask(index){
+async function deleteTask(id){
 
-    await fetch(`${backend}/delete/${index}`,{
-
+    await fetch(`${backend}/delete/${id}`,{
         method:"DELETE"
-
     });
 
     loadTasks();
-
 }
 
 loadTasks();
