@@ -31,9 +31,9 @@ spec:
             - containerPort: 5000
           env:
             - name: DB_HOST
-              value: mysql
+              value: "mysql"
             - name: DB_PORT
-              value: 3306
+              value: "3306"
             - name: DB_USER
               valueFrom:
                 configMapKeyRef:
