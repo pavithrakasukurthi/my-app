@@ -48,16 +48,16 @@ spec:
                 secretKeyRef:
                   name: mysql-secret
                   key: MYSQL_PASSWORD
-      volumeMounts:
-        - name: mysql-data
-          mountPath: /var/lib/mysql
-    volumeClaimTemplates:
-      - metadata:
-          name: mysql-data
-        spec:
-          accessModes:
-            - ReadWriteOnce
-          StorageClassName: gp2
-          resources:
-            requests:
-              storage: 10Gi
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        StorageClassName: gp2
+        resources:
+          requests:
+            storage: 10Gi
