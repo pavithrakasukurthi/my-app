@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: db-deployment
+  namespace: to-do
+  labels:
+    project: to-do-list
+    component: database
+spec:
+  serviceName: mysql-headless
+  replicas: {{ .Values }}
+  selector:
+    matchLabels:
+      project: to-do-list
+      component: database
+  template:
+    metadata:
+      labels:
+        project: to-do-list
+        component: database
+    spec:
+      containers:
+        - name: db
+          image: mysql:8.4
+          imagePullPolicy: {{  }}
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_DATABASE
+              valueFrom:
+                ConfigMapKeyRef:
+                  name: mysql-config
+                  key: todo_db
+            - name: MYSQL_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-config
+                  key: MYSQL_USER
+
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_ROOT_PASSWORD
+
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_PASSWORD
+      volumeMounts:
+        - name: mysql-data
+          mountPath: /var/lib/mysql
+    volumeClaimTemplates:
+      - metadata:
+          name: mysql-data
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          StorageClassName: gp3
+          resources:
+            requests:
+              storage: 10Gi

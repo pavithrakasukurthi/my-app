@@ -1,0 +1,35 @@
+pipeline {
+    agent {
+        node {
+            label 'Linux'
+        }
+    }
+
+    options {
+        timeout(time: 60, unit: 'MINUTES')
+        disableConcurrentBuilds()
+    }
+
+    stages {
+        stage('Deploy') {
+            steps {
+                script {
+                    withAWS(region: 'us-east-1', credentials: 'aws-creds') {
+                        sh """
+                        set -e
+                        aws eks update-kubeconfig --region us-east-1 --name to-do-list-stage
+                        kubectl get nodes
+                        kubectl create namespace to-do || true
+                        helm upgrade --install db -n to-do --atomic --wait --timeout=5m ./helm/db
+                        """
+                    }
+                }
+            }
+        }
+         stage('Trigger Backend Deploy') {
+            steps {
+                build job: 'be-deploy', wait: false
+            }
+        }
+    }
+}

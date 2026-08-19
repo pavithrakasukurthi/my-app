@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: be-config
+  namespace: to-do
+data:
+  DB_HOST: mysql
+  DB_PORT: "3306"
+  DB_USER: todo-user
+  DB_NAME: todo

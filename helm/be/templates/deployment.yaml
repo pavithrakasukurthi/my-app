@@ -29,3 +29,23 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: 5000
+          env:
+            - name: DB_HOST
+              value: mysql
+            - name: DB_PORT
+              value: 3306
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: be-config
+                  key: DB_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: be-secret
+                  key: DB_PASSWORD
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: be-config
+                  key: DB_NAME

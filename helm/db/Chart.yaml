@@ -1,0 +1,5 @@
+apiVersion: v2
+name: db
+version: 1.0.0
+description: installing mysql
+appVersion: v1 
