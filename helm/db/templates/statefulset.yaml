@@ -8,7 +8,7 @@ metadata:
     component: database
 spec:
   serviceName: mysql-headless
-  replicas: {{ .Values }}
+  replicas: 1
   selector:
     matchLabels:
       project: to-do-list
