@@ -22,7 +22,7 @@ spec:
       containers:
         - name: db
           image: mysql:8.4
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3306
           env:
