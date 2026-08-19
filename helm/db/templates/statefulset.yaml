@@ -57,7 +57,7 @@ spec:
       spec:
         accessModes:
           - ReadWriteOnce
-        storageClassName: gp2
+        storageClassName: todo
         resources:
           requests:
             storage: 10Gi
