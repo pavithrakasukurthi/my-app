@@ -17,7 +17,7 @@ pipeline {
                     withAWS(region: 'us-east-1', credentials: 'aws-creds') {
                         sh """
                         set -e
-                        aws eks update-kubeconfig --region us-east-1 --name to-do-list-stage
+                        aws eks update-kubeconfig --region us-east-1 --name roboshop-stage
                         kubectl get nodes
                         kubectl create namespace to-do || true
                         helm upgrade --install db -n to-do --atomic --wait --timeout=5m ./helm/db
