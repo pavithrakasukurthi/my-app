@@ -5,7 +5,8 @@ metadata:
 spec:
   clusterIP: None
   selector:
-    app: mysql
+    project: to-do-list
+    component: database
   ports:
     - port: 3306
       targetPort: 3306
